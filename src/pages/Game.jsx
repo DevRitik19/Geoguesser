@@ -52,7 +52,7 @@ const Game = () => {
           <div>
             <h1 className="text-2xl font-bold flex items-center gap-2 neon-text-blue">
               <Globe2 className="w-6 h-6 text-primary" />
-              GeoMind Explorer
+              GeoGuesser Explorer
             </h1>
             <p className="text-sm text-slate-300 ml-8 font-light">Locate the hidden territory</p>
           </div>

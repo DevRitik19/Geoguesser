@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Lock, User, AlertCircle, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,7 +10,8 @@ const Auth = () => {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+  const [showPassword, setShowPassword] = useState(false);
+
   const { login, signup } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,7 +32,7 @@ const Auth = () => {
       navigate(from, { replace: true });
     } catch (err) {
       console.error("Authentication Error:", err.code, err.message);
-      
+
       if (err.code === 'auth/email-already-in-use' || (!isLogin && err.code === 'auth/invalid-credential')) {
         setError('This email is already registered. Please click "Log in" below to access your account.');
       } else if (err.code === 'auth/wrong-password' || (isLogin && err.code === 'auth/invalid-credential')) {
@@ -48,13 +49,13 @@ const Auth = () => {
 
   return (
     <div className="flex justify-center items-center h-full">
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          {isLogin ? 'Welcome Back!' : 'Join GeoMind'}
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-800">
+        <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
+          {isLogin ? 'Welcome Back!' : 'Join GeoGuesser'}
         </h2>
 
         {error && (
-          <div className="flex items-center gap-2 bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
+          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-sm">
             <AlertCircle className="w-5 h-5 flex-shrink-0" />
             <p>{error}</p>
           </div>
@@ -63,17 +64,17 @@ const Auth = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
+                  <User className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary focus:border-primary outline-none bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
                   placeholder="John Doe"
                 />
               </div>
@@ -81,36 +82,43 @@ const Auth = () => {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email Address</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-400" />
+                <Mail className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary focus:border-primary outline-none bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
                 placeholder="you@example.com"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-400" />
+                <Lock className="h-5 w-5 text-gray-400 dark:text-gray-500" />
               </div>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary outline-none"
+                className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-primary focus:border-primary outline-none bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
                 placeholder="••••••••"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
             </div>
           </div>
 
@@ -130,7 +138,7 @@ const Auth = () => {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
+        <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
             onClick={() => setIsLogin(!isLogin)}

@@ -10,7 +10,7 @@ const Layout = () => {
       </main>
       <footer className="bg-slate-900 border-t border-slate-800 py-6 mt-auto">
         <div className="text-center text-sm text-slate-400">
-          &copy; {new Date().getFullYear()} GeoMind Interactive Learning. All rights reserved.
+          &copy; {new Date().getFullYear()} GeoGuesser Interactive Learning. All rights reserved.
         </div>
       </footer>
     </div>

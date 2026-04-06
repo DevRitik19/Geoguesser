@@ -2,7 +2,7 @@ const Home = () => {
   return (
     <div className="max-w-4xl mx-auto text-center py-16">
       <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-6 transition-colors">
-        Master Geography with <span className="text-primary">GeoMind</span>
+        Master Geography with <span className="text-primary">GeoGuesser</span>
       </h1>
       <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto transition-colors">
         Test your knowledge of countries around the world. Guess the secret country using distance and direction hints in our interactive gamified learning platform.
